@@ -1,0 +1,16 @@
+.DS_store
+.idea
+.qa/
+node_modules/
+
+# Agentic coding files
+.agents/
+.codex/
+.claude/
+.agents/knowledge/
+.agents/plans/
+.agents/prompts/
+.agents/reports/
+.agents/logs/
+.github/*
+!.github/copilot-instructions.md
