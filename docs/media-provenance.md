@@ -2,7 +2,7 @@
 
 ## Published video files
 
-There are 14 MP4s in `static/videos/`, each with two added seconds holding its final frame. Before that final delivery edit, nine videos were unchanged source files, four were simulation scenes with close-up insets, and one was a composed Plush comparison. Their SHA-256 checksums and probed metadata are in `static/media-manifest.json`. Posters are still frames sampled from those files; the manifest records each sample time. The main scene retains its original framing and timing in every simulation composition. No video exceeds GitHub's 100 MB file limit.
+There are 14 MP4s in `static/videos/`. Thirteen have two added seconds holding their final frame; the full film is copied byte-for-byte from `DiagGen_v4_compressed.mp4` without an added hold. Before the final-frame edits, nine videos were unchanged source files, four were simulation scenes with close-up insets, and one was a composed Plush comparison. SHA-256 checksums and probed metadata are in `static/media-manifest.json`. Posters are still frames sampled from those files; the manifest records each sample time. The main scene retains its original framing and timing in every simulation composition. No video exceeds GitHub's 100 MB file limit.
 
 Source archive: [DiagGen Google Drive folder](https://drive.google.com/drive/folders/1FW5MmvtleQC1Hq1ijwIGCci9wzZzjmpc).
 
@@ -21,7 +21,7 @@ Source archive: [DiagGen Google Drive folder](https://drive.google.com/drive/fol
 | `real-plush.mp4` | Both full Plush archive clips: `real_zed_left_1080p.mp4` + `plush_sim_woven_basket_1080p.mp4` |
 | `real-dino.mp4` | `twist_dino_real_vs_sim_blender.mp4` — full 21 s original |
 | `real-bottle.mp4` | `squeeze_bottle_real_vs_sim_blender.mp4` — full 16 s original |
-| `full-film.mp4` | `DiagGen_full_compilation_v7_bgm.mp4` — approved 178.4 s master, including its existing soundtrack |
+| `DiagGen_v4_compressed.mp4` | `DiagGen_v4_compressed.mp4` — copied byte-for-byte; 178.411 s with its existing soundtrack |
 
 The original narrative masters come from the preserved production backup. The simulation, real-world Dino/Bottle, repair clips and Plush ZIP are from the shared Drive folder, with matching close-up copies recovered from the preserved local production backup. The ZIP passed CRC validation. The source videos all passed full decode verification.
 
@@ -37,13 +37,13 @@ The section masters are the same inputs used by the latest approved `DiagGen_ful
 - Generation pipeline: `DiagGen_method_before_diagnostics_v6.mp4` (28 s).
 - Simulation diagnostics: `DiagGen_diagnostics_before_repair_v5.mp4` (24 s standalone). The full compilation removes 4.1 s from its final static Accept hold and adds section-transition fades; the website keeps the complete standalone master.
 
-The source version numbers are independent of the full compilation version. These three website baselines were checked byte-for-byte against those named masters. The full-film baseline also matches the verified v7 SHA-256 `a08a1266a46cce0d7c07cf062e00a73d4842f0ad29a90695bf90cd25bcc3deb3`.
+The source version numbers are independent of the full compilation version. The opener, pipeline and diagnostics website baselines were checked byte-for-byte against those named masters. The previous v7 full-film baseline matched SHA-256 `a08a1266a46cce0d7c07cf062e00a73d4842f0ad29a90695bf90cd25bcc3deb3`; the current full-film player uses the supplied v4 compressed file listed above.
 
 ## Additional final-frame holds
 
-Each published video appends 60 copies of its final decoded frame at the original 30 fps, extending its duration by exactly two seconds. This is encoded in the MP4 itself; it applies equally to autoplay, native controls and direct downloads. Existing action timing, framing and insets are preserved. The USB hub players each receive the same hold so their synchronization and controls are unchanged.
+Each of the 13 hold-processed videos appends 60 copies of its final decoded frame at the original 30 fps, extending its duration by exactly two seconds. This is encoded in the MP4 itself; it applies equally to autoplay, native controls and direct downloads. Existing action timing, framing and insets are preserved. The USB hub players each receive the same hold so their synchronization and controls are unchanged.
 
-The original v7 full film is 178.4 s; the website delivery is 180.4 s. Its existing AAC soundtrack is copied unchanged and ends at its original time; the added picture hold is silent. Original sources and the pre-hold website edits are preserved outside the published site. The manifest separates pre-hold hashes, durations and frame counts from final delivery values.
+The current full film is a byte-for-byte copy of `DiagGen_v4_compressed.mp4`: 178.411 s, 5,352 video frames, 1920×1080 at 30 fps, with its AAC soundtrack. No still-frame hold is appended to this file. Its source SHA-256, byte count and probed metadata are recorded directly in `static/media-manifest.json`.
 
 Rebuild from a preserved baseline directory containing the MP4s and their original manifest:
 

@@ -542,31 +542,30 @@
     },
     {
       "id": "full-film",
-      "file": "./static/videos/full-film.mp4",
-      "source_name": "DiagGen_full_compilation_v7_bgm.mp4",
-      "sha256": "db358e06ff03fe2c57275d90aae2cd7182e7ca2b14aeeee3cc191867875197fd",
-      "size_bytes": 54835442,
-      "duration_seconds": 180.4,
+      "file": "./static/videos/DiagGen_v4_compressed.mp4",
+      "source_name": "DiagGen_v4_compressed.mp4",
+      "sha256": "a9872ccb38a04547a2160ee5e8c06559a88c35ba4b772dd337339cdf83998b69",
+      "size_bytes": 18335594,
+      "duration_seconds": 178.411,
       "video": {
         "codec_name": "h264",
         "codec_type": "video",
         "width": 1920,
         "height": 1080,
         "r_frame_rate": "30/1",
-        "nb_frames": "5412"
+        "nb_frames": "5352"
       },
       "has_audio": true,
-      "processing": "Preserved the complete pre-hold website edit at its original speed and dimensions, then appended 60 copies of its final frame (2 s). H.264 CRF 17; existing audio stream copied unchanged. Original sources retained.",
-      "source_kind": "Local approved production master",
+      "processing": "Copied byte-for-byte from DiagGen_v4_compressed.mp4; no editing, hold, or re-encoding.",
+      "source_kind": "Provided compressed production video",
       "poster": "./static/posters/full-film.jpg",
       "poster_time_seconds": 22,
-      "pre_hold_sha256": "a08a1266a46cce0d7c07cf062e00a73d4842f0ad29a90695bf90cd25bcc3deb3",
-      "pre_hold_duration_seconds": 178.4,
+      "pre_hold_sha256": "a9872ccb38a04547a2160ee5e8c06559a88c35ba4b772dd337339cdf83998b69",
+      "pre_hold_duration_seconds": 178.411,
       "pre_hold_frame_count": 5352,
-      "end_hold_seconds": 2,
-      "end_hold_frames": 60,
-      "source_processing": "Original file copied byte-for-byte; no cropping, trimming, retiming or re-encoding.",
-      "hold_script": "scripts/add-end-holds.py"
+      "end_hold_seconds": 0,
+      "end_hold_frames": 0,
+      "source_processing": "Original file copied byte-for-byte; no cropping, trimming, retiming or re-encoding."
     }
   ]
 }

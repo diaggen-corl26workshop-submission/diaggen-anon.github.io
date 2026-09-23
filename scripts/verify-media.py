@@ -13,7 +13,7 @@ import subprocess
 root = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser()
 parser.add_argument('--decode', action='store_true')
-parser.add_argument('--holds', action='store_true', help='Check the added two-second final-frame holds')
+parser.add_argument('--holds', action='store_true', help='Check each video\'s manifest-declared final-hold policy')
 args = parser.parse_args()
 
 class Page(HTMLParser):
@@ -70,27 +70,30 @@ def verify(entry):
         result = subprocess.run([ffmpeg, '-v', 'error', '-xerror', '-threads', '2', '-i', str(file), '-f', 'null', '-'], capture_output=True, text=True)
         assert result.returncode == 0, f"{entry['id']}: decode failed: {result.stderr}"
     if args.holds:
-        assert entry['end_hold_seconds'] == 2 and entry['end_hold_frames'] == 60
-        assert int(video['nb_frames']) == entry['pre_hold_frame_count'] + 60
-        assert abs(entry['duration_seconds'] - entry['pre_hold_duration_seconds'] - 2) < 0.001
-        # Decode the tail at a small fixed size. Lossy H.264 can introduce tiny
-        # pixel differences; all 60 added frames must remain visually identical
-        # to the preceding final source frame, within one grayscale level.
-        raw = subprocess.check_output([
-            ffmpeg, '-v', 'error', '-sseof', '-2.1', '-i', str(file),
-            '-an', '-vf', 'scale=128:72', '-pix_fmt', 'gray', '-fps_mode', 'passthrough',
-            '-f', 'rawvideo', '-',
-        ])
-        pixels = 128 * 72
-        assert len(raw) % pixels == 0
-        frames = [raw[start:start+pixels] for start in range(0, len(raw), pixels)][-61:]
-        assert len(frames) == 61, entry['id'] + ': final-frame sample count'
-        largest_difference = max(sum(abs(a-b) for a,b in zip(frames[0], frame)) / pixels for frame in frames[1:])
-        assert largest_difference < 1, f"{entry['id']}: final hold changes ({largest_difference:.4f})"
+        hold_seconds = entry['end_hold_seconds']
+        hold_frames = entry['end_hold_frames']
+        assert (hold_seconds, hold_frames) in ((0, 0), (2, 60)), entry['id'] + ': hold policy'
+        assert int(video['nb_frames']) == entry['pre_hold_frame_count'] + hold_frames
+        assert abs(entry['duration_seconds'] - entry['pre_hold_duration_seconds'] - hold_seconds) < 0.001
+        if hold_frames:
+            # Decode the tail at a small fixed size. Lossy H.264 can introduce tiny
+            # pixel differences; added frames must remain visually identical to
+            # the preceding final source frame, within one grayscale level.
+            raw = subprocess.check_output([
+                ffmpeg, '-v', 'error', '-sseof', '-2.1', '-i', str(file),
+                '-an', '-vf', 'scale=128:72', '-pix_fmt', 'gray', '-fps_mode', 'passthrough',
+                '-f', 'rawvideo', '-',
+            ])
+            pixels = 128 * 72
+            assert len(raw) % pixels == 0
+            frames = [raw[start:start+pixels] for start in range(0, len(raw), pixels)][-(hold_frames + 1):]
+            assert len(frames) == hold_frames + 1, entry['id'] + ': final-frame sample count'
+            largest_difference = max(sum(abs(a-b) for a,b in zip(frames[0], frame)) / pixels for frame in frames[1:])
+            assert largest_difference < 1, f"{entry['id']}: final hold changes ({largest_difference:.4f})"
     return entry['id']
 
 with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
     for name in pool.map(verify, manifest['videos']):
         print('PASS:', name, '(hash, dimensions, duration, frame count, audio'
-              + (', full decode' if args.decode else '') + (', 2 s final hold' if args.holds else '') + ')')
+              + (', full decode' if args.decode else '') + (', hold policy' if args.holds else '') + ')')
 print('Total MP4 bytes:', sum(e['size_bytes'] for e in manifest['videos']))

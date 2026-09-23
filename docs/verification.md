@@ -33,9 +33,11 @@ Four cache-regression checks pass using a real warm browser cache: reproduction 
 
 ## Media integrity
 
-All 14 published MP4s passed SHA-256, byte-count, duration, dimensions, frame-count, audio-presence and full FFmpeg decode checks after the final-hold revision. The files total 122,218,433 bytes. Every output adds exactly 60 frames and two seconds to its preserved pre-hold edit. Decoded samples confirmed that all added frames remain visually identical to the preceding final frame, within one grayscale level of average H.264 encoding variation. The full film's original AAC stream was separately verified unchanged.
+Before the full-film replacement, all 14 published MP4s passed SHA-256, byte-count, duration, dimensions, frame-count, audio-presence and full FFmpeg decode checks after the final-hold revision. That v7 set totaled 122,218,433 bytes; each output added 60 frames and two seconds to its preserved pre-hold edit. Decoded samples confirmed that the added frames remained visually identical to the preceding final frame, within one grayscale level of average H.264 encoding variation.
 
-The opener, pipeline, diagnostics and full-film baselines were checked against the masters named in the v7 → v6 production scripts. All four source hashes match. The website uses the complete standalone diagnostics source, including the 4.1-second final hold omitted from the compilation. Final frames of the opener and both Method clips were visually reviewed after extension.
+The current full-film file is an exact copy of `DiagGen_v4_compressed.mp4`: SHA-256 `a9872ccb38a04547a2160ee5e8c06559a88c35ba4b772dd337339cdf83998b69`, 18,335,594 bytes, 178.411 s, 5,352 frames at 1920×1080 and 30 fps, with audio. It has no added final-frame hold. The other 13 MP4s are unchanged from the previously verified set.
+
+The opener, pipeline and diagnostics baselines were checked against the masters named in the v7 → v6 production scripts; all three source hashes match. The previous v7 full-film baseline also matched its recorded source hash, but has since been replaced by the v4 compressed file. The website uses the complete standalone diagnostics source, including the 4.1-second final hold omitted from the compilation. Final frames of the opener and both Method clips were visually reviewed after extension.
 
 The navigation revision changes the header layout and removes the sidebar spacing. Media playback behavior and the Method section structure remain intact. Both USB hub clips now have matching two-second holds, and their synchronized seeking and looping checks pass. Simulation insets and the standardized desktop/phone Plush player remain in place.
 

@@ -163,7 +163,7 @@ fs.mkdirSync(outputDir, { recursive: true });
     await screenshot('desktop-plush', '#real-world .experiment-gallery');
     await check('Full film before Citation autoplays on arrival', async () => {
       await center('#video-full-film'); await playing('video-full-film');
-      assert.ok(Math.abs(await page.locator('#video-full-film').evaluate(v => v.duration) - 180.4) < 0.05);
+      assert.ok(Math.abs(await page.locator('#video-full-film').evaluate(v => v.duration) - 178.411) < 0.05);
     });
     await check('All videos preserve their natural aspect ratio', async () => {
       for (const selector of ['#video-full-film','#video-real-bottle','#video-sim-plunger']) {
